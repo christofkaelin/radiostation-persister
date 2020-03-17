@@ -1,0 +1,19 @@
+# Config file pilatus-persister
+
+pilatus:
+    # Usually doesn't needs to be changed
+    url: https://www.radiopilatus.ch/app/api/player/playeds.json
+
+mysql:
+    # Specify an IP-address or a domain.
+    host: localhost
+
+    # Default port is 3306
+    port: 3306
+
+    # Credentials for accessing the database server
+    user: root
+    passwd: my-secret-password
+
+    # Specify the name of the database you'd like to save the data to
+    db: my-db-name
