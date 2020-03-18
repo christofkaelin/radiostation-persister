@@ -3,6 +3,8 @@ import yaml
 import mysql.connector as mariadb
 import sys
 import urllib.request, json
+import ssl
+import certifi
 import datetime
 import time
 
@@ -72,7 +74,7 @@ cur.execute('CREATE TABLE IF NOT EXISTS songs ('
 
 while True:
     try:
-        with urllib.request.urlopen(cfg['pilatus']['url']) as url:
+        with urllib.request.urlopen(cfg['pilatus']['url'], context=ssl.create_default_context(cafile=certifi.where())) as url:
             currentSong = json.loads(url.read().decode())
             x = time.strptime(currentSong['live'][0]['duration'], '%M:%S')
             currentSong = Song(
