@@ -64,7 +64,7 @@ time_zone = timezone(cfg['radio']['timezone'])
 cur = conn.cursor()
 
 # Create DB and select it
-cur.execute('CREATE DATABASE IF NOT EXISTS ' + cfg['db']['db'])
+cur.execute('CREATE DATABASE IF NOT EXISTS ' + cfg['db']['db'] + ';')
 conn.connect(database=cfg['db']['db'])
 
 # Create table
