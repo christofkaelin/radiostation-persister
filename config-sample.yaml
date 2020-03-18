@@ -1,10 +1,13 @@
 # Config file pilatus-persister
 
-pilatus:
+radio:
     # Usually doesn't need to be changed
     url: https://www.radiopilatus.ch/app/api/player/playeds.json
 
-mysql:
+    # Usually doesn't need to be changed
+    timezone: Europe/Zurich
+
+db:
     # Specify an IP-address or a domain
     host: localhost
 
@@ -15,5 +18,6 @@ mysql:
     user: root
     passwd: my-secret-password
 
-    # Specify the name of the database you'd like to save the data to
+    # Specify the name of the database and the table where the data should be saved to
     db: my-db-name
+    table: my-table-name
