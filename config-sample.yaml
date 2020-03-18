@@ -1,11 +1,11 @@
 # Config file pilatus-persister
 
 pilatus:
-    # Usually doesn't needs to be changed
+    # Usually doesn't need to be changed
     url: https://www.radiopilatus.ch/app/api/player/playeds.json
 
 mysql:
-    # Specify an IP-address or a domain.
+    # Specify an IP-address or a domain
     host: localhost
 
     # Default port is 3306
