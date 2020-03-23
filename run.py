@@ -38,6 +38,20 @@ class Song:
             return False
         return self.title == other.title and self.interpret == other.interpret and self.playtime == other.playtime
 
+    def save_to_db(self):
+        cur.execute('INSERT INTO '
+                    + cfg['db']['table'] +
+                    ' (title, interpret, duration, label, playtime, m3uURL, imageURL) VALUES("'
+                    + self.title + '", "'
+                    + self.interpret + '", "'
+                    + time.strftime('%M:%S', currentSong.duration) + '", "'
+                    + self.label + '", "'
+                    + str(datetime.datetime.strftime(self.playtime, '%Y-%m-%d %H:%M:%S')) + '", "'
+                    + self.m3uURL + '", "'
+                    + self.imageURL
+                    + '");'
+                    )
+
 if os.path.isfile('config.yaml'):
     with open('config.yaml', 'r') as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.BaseLoader)
@@ -45,7 +59,8 @@ else:
     print('config.yaml does not exist. Save config-sample.yaml as config.yaml and adapt the file.')
     sys.exit(1)
 
-# Instantiate Connection
+
+# Startup, connect to server and create DB and table
 try:
     conn = mariadb.connect(
         host=cfg['db']['host'],
@@ -56,18 +71,9 @@ try:
 except mariadb.Error as e:
     print('Error connecting to MariaDB Platform: {e}')
     sys.exit(1)
-
-# Set time zone
-time_zone = timezone(cfg['radio']['timezone'])
-
-# Instantiate Cursor
 cur = conn.cursor()
-
-# Create DB and select it
 cur.execute('CREATE DATABASE IF NOT EXISTS ' + cfg['db']['db'] + ';')
 conn.connect(database=cfg['db']['db'])
-
-# Create table
 cur.execute('CREATE TABLE IF NOT EXISTS '
             + cfg['db']['table'] + ' ('
             'id int NOT NULL PRIMARY KEY AUTO_INCREMENT, '
@@ -80,6 +86,13 @@ cur.execute('CREATE TABLE IF NOT EXISTS '
             'imageURL TINYTEXT'
             ');'
             )
+conn.close()
+
+# Set time zone
+time_zone = timezone(cfg['radio']['timezone'])
+
+# Construct previousSong object for first run
+previousSong = Song(None, None, None, None, None, None, None)
 
 while True:
     try:
@@ -100,37 +113,27 @@ while True:
                 currentSong['live'][0]['imageURL']
             )
 
-            # Get latest song from DB
-            cur.execute('SELECT * FROM ' + cfg['db']['table'] + ' ORDER BY id DESC LIMIT 1;')
-            lastSong = cur.fetchone()
-            if lastSong is not None:
-                lastSong = Song(
-                    lastSong[1],
-                    lastSong[2],
-                    time.strptime(str(lastSong[3]), '%H:%M:%S'),
-                    lastSong[4],
-                    time_zone.localize(lastSong[5]),
-                    lastSong[6],
-                    lastSong[7]
-                )
-            # print(lastSong, '\n', currentSong)
-
-            if currentSong.__eq__(lastSong) is False:
-                cur.execute('INSERT INTO '
-                            + cfg['db']['table'] +
-                            ' (title, interpret, duration, label, playtime, m3uURL, imageURL) VALUES("'
-                            + currentSong.title + '", "'
-                            + currentSong.interpret + '", "'
-                            + time.strftime('%M:%S', currentSong.duration) + '", "'
-                            + currentSong.label + '", "'
-                            + str(datetime.datetime.strftime(currentSong.playtime, '%Y-%m-%d %H:%M:%S')) + '", "'
-                            + currentSong.m3uURL + '", "'
-                            + currentSong.imageURL
-                            + '");'
-                            )
+            if currentSong.__eq__(previousSong) is False:
+                try:
+                    conn = mariadb.connect(
+                        host=cfg['db']['host'],
+                        port=cfg['db']['port'],
+                        user=cfg['db']['user'],
+                        password=cfg['db']['passwd'],
+                        database=cfg['db']['db']
+                    )
+                except mariadb.Error as e:
+                    print('Error connecting to MariaDB Platform: {e}')
+                    sys.exit(1)
+                cur = conn.cursor()
+                currentSong.save_to_db()
                 conn.commit()
+                conn.close()
+                previousSong = currentSong
 
-            time.sleep(15)
+        conn.close()
+        time.sleep(60)
+
     except urllib.error.HTTPError as e:
         print(e.__dict__)
     except urllib.error.URLError as e:
