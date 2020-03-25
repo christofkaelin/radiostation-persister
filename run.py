@@ -30,7 +30,7 @@ class Song:
             return False
         elif self is None or other is None:
             return False
-        return self.title == other.title and self.interpret == other.interpret and self.playtime == other.playtime
+        return self.title == other.title and self.interpret == other.interpret
 
     def save_to_db(self):
         cur.execute('INSERT INTO '
