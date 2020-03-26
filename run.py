@@ -80,7 +80,7 @@ conn.close()
 time_zone = timezone(cfg['radio']['timezone'])
 
 # Construct previousSong object for first run
-previousSong = Song(None, None, None, None)
+previousSong = Song(None, None, datetime.datetime(1970, 1, 1, 0, 0, 0, 0, time_zone), None)
 
 while True:
     try:
@@ -98,27 +98,26 @@ while True:
                 ),
                 currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl']
             )
-
             if currentSong.__eq__(previousSong) is False:
-                try:
-                    conn = mariadb.connect(
-                        host=cfg['db']['host'],
-                        port=cfg['db']['port'],
-                        user=cfg['db']['user'],
-                        password=cfg['db']['passwd'],
-                        database=cfg['db']['db']
-                    )
-                except mariadb.Error as e:
-                    print('Error connecting to MariaDB Platform: {e}')
-                    sys.exit(1)
-                cur = conn.cursor()
-                currentSong.save_to_db()
-                conn.commit()
-                conn.close()
-                previousSong = currentSong
-
-        conn.close()
-        time.sleep(60)
+                if currentSong.playtime > previousSong.playtime:
+                    try:
+                        conn = mariadb.connect(
+                            host=cfg['db']['host'],
+                            port=cfg['db']['port'],
+                            user=cfg['db']['user'],
+                            password=cfg['db']['passwd'],
+                            database=cfg['db']['db']
+                        )
+                    except mariadb.Error as e:
+                        print('Error connecting to MariaDB Platform: {e}')
+                        sys.exit(1)
+                    cur = conn.cursor()
+                    currentSong.save_to_db()
+                    conn.commit()
+                    conn.close()
+                    previousSong = currentSong
+                    conn.close()
+        time.sleep(15)
 
     except urllib.error.HTTPError as e:
         print(e.__dict__)
