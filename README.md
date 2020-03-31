@@ -12,6 +12,9 @@ Radio FM1:
 Radio 24:
 ```https://www.radio24.ch/api/pub/gql/radio24/AudioLiveData/e8ed774ebb6a811303ea3ff7078581730ff3914c```
 
+Virgin Radio Hits Switzerland:
+```https://www.virginradiohits.ch/api/pub/gql/virginhits/AudioLiveData/e8ed774ebb6a811303ea3ff7078581730ff3914c```
+
 ## Usage
 1) Clone the repo:
 ```git clone https://github.com/christofkaelin/radiostation-persister.git```
