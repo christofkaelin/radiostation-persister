@@ -1,3 +1,4 @@
+
 import os
 import yaml
 import mysql.connector as mariadb
@@ -6,6 +7,7 @@ import urllib.request, json
 import ssl
 import certifi
 import datetime
+import dateutil.parser
 import time
 from pytz import timezone
 
@@ -89,6 +91,7 @@ while True:
                 cfg['radio']['url'] + '?' + datetime.datetime.strftime(datetime.datetime.now(), '%Y%m%d%H%M%S%f'),
                 context=ssl.create_default_context(cafile=certifi.where())) as url:
             currentSong = json.loads(url.read().decode())
+            print (currentSong)
             if (currentSong['data']['audioPlayer']['stream']['live']['title'] is not None and
                 currentSong['data']['audioPlayer']['stream']['live']['interpret'] is not None and
                 currentSong['data']['audioPlayer']['stream']['live']['playtime'] is not None and
@@ -97,7 +100,7 @@ while True:
                     currentSong['data']['audioPlayer']['stream']['live']['title'],
                     currentSong['data']['audioPlayer']['stream']['live']['interpret'],
                     time_zone.localize(
-                        datetime.datetime.fromisoformat(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
+                        dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
                             .replace(tzinfo=None)
                     ),
                     currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl']

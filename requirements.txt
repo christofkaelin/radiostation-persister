@@ -1,5 +1,0 @@
-certifi>=2019.11.28
-mysql-connector>=2.2.9
-python-dateutil>=2.8.1
-pytz>=2019.3
-PyYAML>=5.3
