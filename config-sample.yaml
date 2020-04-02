@@ -1,7 +1,7 @@
-# Config file pilatus-persister
+# radiostation-persister config
 
 radio:
-    # Usually doesn't need to be changed
+    # This example uses Radio Pilatus
     url: https://radio.radiopilatus.ch/api/pub/gql/radiopilatus/AudioLiveData/e8ed774ebb6a811303ea3ff7078581730ff3914c
 
     # Usually doesn't need to be changed
