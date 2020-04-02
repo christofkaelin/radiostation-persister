@@ -92,33 +92,27 @@ while True:
                 context=ssl.create_default_context(cafile=certifi.where())) as url:
             currentSong = json.loads(url.read().decode())
             print (currentSong)
-            if (currentSong['data']['audioPlayer']['stream']['live']['title'] is not None and
-                currentSong['data']['audioPlayer']['stream']['live']['interpret'] is not None and
-                currentSong['data']['audioPlayer']['stream']['live']['playtime'] is not None and
-                currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl'] is not None):
-                if (currentSong['data']['audioPlayer']['stream']['live']['image'] != 'None' or
-                   currentSong['data']['audioPlayer']['stream']['live']['image'] is not None):
-                    currentSong = Song(
-                        currentSong['data']['audioPlayer']['stream']['live']['title'],
-                        currentSong['data']['audioPlayer']['stream']['live']['interpret'],
-                        time_zone.localize(
-                            dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
-                                .replace(tzinfo=None)
-                        ),
-                        currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl']
-                    )
-                else:
-                    currentSong = Song(
-                        currentSong['data']['audioPlayer']['stream']['live']['title'],
-                        currentSong['data']['audioPlayer']['stream']['live']['interpret'],
-                        time_zone.localize(
-                            dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
-                                .replace(tzinfo=None)
-                        ),
-                        ''
-                    )
+            if (currentSong['data']['audioPlayer']['stream']['live']['image'] != 'None' or
+               currentSong['data']['audioPlayer']['stream']['live']['image'] is not None):
+                currentSong = Song(
+                    currentSong['data']['audioPlayer']['stream']['live']['title'],
+                    currentSong['data']['audioPlayer']['stream']['live']['interpret'],
+                    time_zone.localize(
+                        dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
+                            .replace(tzinfo=None)
+                    ),
+                    currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl']
+                )
             else:
-                time.sleep(5)
+                currentSong = Song(
+                    currentSong['data']['audioPlayer']['stream']['live']['title'],
+                    currentSong['data']['audioPlayer']['stream']['live']['interpret'],
+                    time_zone.localize(
+                        dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
+                            .replace(tzinfo=None)
+                    ),
+                    ''
+                )
             if currentSong.__eq__(previousSong) is False:
                 if currentSong.playtime > previousSong.playtime:
                     try:
