@@ -92,8 +92,9 @@ while True:
                 context=ssl.create_default_context(cafile=certifi.where())) as url:
             currentSong = json.loads(url.read().decode())
             print (currentSong)
-            if (currentSong['data']['audioPlayer']['stream']['live']['image'] != 'None' or
-               currentSong['data']['audioPlayer']['stream']['live']['image'] is not None):
+            print (currentSong['data']['audioPlayer']['stream']['live']['image'])
+            if (currentSong['data']['audioPlayer']['stream']['live']['image'] == 'None' or
+               currentSong['data']['audioPlayer']['stream']['live']['image'] is None):
                 currentSong = Song(
                     currentSong['data']['audioPlayer']['stream']['live']['title'],
                     currentSong['data']['audioPlayer']['stream']['live']['interpret'],
@@ -101,7 +102,7 @@ while True:
                         dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
                             .replace(tzinfo=None)
                     ),
-                    currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl']
+                    ''
                 )
             else:
                 currentSong = Song(
@@ -111,7 +112,7 @@ while True:
                         dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
                             .replace(tzinfo=None)
                     ),
-                    ''
+                    currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl']
                 )
             if currentSong.__eq__(previousSong) is False:
                 if currentSong.playtime > previousSong.playtime:
