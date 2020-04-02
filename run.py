@@ -96,7 +96,7 @@ while True:
                 currentSong['data']['audioPlayer']['stream']['live']['interpret'] is not None and
                 currentSong['data']['audioPlayer']['stream']['live']['playtime'] is not None and
                 currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl'] is not None):
-                if currentSong['data']['audioPlayer']['stream']['live']['image'] is not 'None':
+                if currentSong['data']['audioPlayer']['stream']['live']['image'] != 'None':
                     currentSong = Song(
                         currentSong['data']['audioPlayer']['stream']['live']['title'],
                         currentSong['data']['audioPlayer']['stream']['live']['interpret'],
