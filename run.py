@@ -96,15 +96,26 @@ while True:
                 currentSong['data']['audioPlayer']['stream']['live']['interpret'] is not None and
                 currentSong['data']['audioPlayer']['stream']['live']['playtime'] is not None and
                 currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl'] is not None):
-                currentSong = Song(
-                    currentSong['data']['audioPlayer']['stream']['live']['title'],
-                    currentSong['data']['audioPlayer']['stream']['live']['interpret'],
-                    time_zone.localize(
-                        dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
-                            .replace(tzinfo=None)
-                    ),
-                    currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl']
-                )
+                if currentSong['data']['audioPlayer']['stream']['live']['image'] is 'None':
+                    currentSong = Song(
+                        currentSong['data']['audioPlayer']['stream']['live']['title'],
+                        currentSong['data']['audioPlayer']['stream']['live']['interpret'],
+                        time_zone.localize(
+                            dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
+                                .replace(tzinfo=None)
+                        ),
+                        currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl']
+                    )
+                else:
+                    currentSong = Song(
+                        currentSong['data']['audioPlayer']['stream']['live']['title'],
+                        currentSong['data']['audioPlayer']['stream']['live']['interpret'],
+                        time_zone.localize(
+                            dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
+                                .replace(tzinfo=None)
+                        ),
+                        None
+                    )
             else:
                 time.sleep(5)
             if currentSong.__eq__(previousSong) is False:
