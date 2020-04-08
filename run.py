@@ -96,8 +96,8 @@ while True:
                 if (currentSong['data']['audioPlayer']['stream']['live']['image'] == 'None' or
                    currentSong['data']['audioPlayer']['stream']['live']['image'] is None):
                     currentSong = Song(
-                        currentSong['data']['audioPlayer']['stream']['live']['title'].replace('"', '\\"')),
-                        currentSong['data']['audioPlayer']['stream']['live']['interpret'].replace('"', '\\"')),
+                        currentSong['data']['audioPlayer']['stream']['live']['title'].replace('"', '\\"'),
+                        currentSong['data']['audioPlayer']['stream']['live']['interpret'].replace('"', '\\"'),
                         time_zone.localize(
                             dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
                                 .replace(tzinfo=None)
@@ -106,8 +106,8 @@ while True:
                     )
                 else:
                     currentSong = Song(
-                        currentSong['data']['audioPlayer']['stream']['live']['title'].replace('"', '\\"')),
-                        currentSong['data']['audioPlayer']['stream']['live']['interpret'].replace('"', '\\"')),
+                        currentSong['data']['audioPlayer']['stream']['live']['title'].replace('"', '\\"'),
+                        currentSong['data']['audioPlayer']['stream']['live']['interpret'].replace('"', '\\"'),
                         time_zone.localize(
                             dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
                                 .replace(tzinfo=None)
