@@ -1,20 +1,20 @@
 # radiostation-persister config
 
 radio:
-    # This example uses Radio Pilatus
+    # Specify valid URL to the JSON-file (this example uses Radio Pilatus)
     url: https://radio.radiopilatus.ch/api/pub/gql/radiopilatus/AudioLiveData/e8ed774ebb6a811303ea3ff7078581730ff3914c
 
-    # Usually doesn't need to be changed
+    # Specify the timezone (keep Europe/Zurich if you are using it for Swiss radio stations)
     timezone: Europe/Zurich
 
 db:
     # Specify an IP-address or a domain
     host: localhost
 
-    # Default port is 3306
+    # Specify the port of the database server (default for MySQL is 3306)
     port: 3306
 
-    # Credentials for accessing the database server
+    # Specify the credentials for accessing the database server
     user: root
     passwd: my-secret-password
 
