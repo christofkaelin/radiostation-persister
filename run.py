@@ -92,27 +92,30 @@ while True:
             currentSong = json.loads(url.read().decode())
             print (currentSong)
             print (currentSong['data']['audioPlayer']['stream']['live']['image'])
-            if (currentSong['data']['audioPlayer']['stream']['live']['image'] == 'None' or
-               currentSong['data']['audioPlayer']['stream']['live']['image'] is None):
-                currentSong = Song(
-                    currentSong['data']['audioPlayer']['stream']['live']['title'].replace('"', '\\"')),
-                    currentSong['data']['audioPlayer']['stream']['live']['interpret'].replace('"', '\\"')),
-                    time_zone.localize(
-                        dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
-                            .replace(tzinfo=None)
-                    ),
-                    ''
-                )
-            else:
-                currentSong = Song(
-                    currentSong['data']['audioPlayer']['stream']['live']['title'].replace('"', '\\"')),
-                    currentSong['data']['audioPlayer']['stream']['live']['interpret'].replace('"', '\\"')),
-                    time_zone.localize(
-                        dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
-                            .replace(tzinfo=None)
-                    ),
-                    currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl']
-                )
+            try:
+                if (currentSong['data']['audioPlayer']['stream']['live']['image'] == 'None' or
+                   currentSong['data']['audioPlayer']['stream']['live']['image'] is None):
+                    currentSong = Song(
+                        currentSong['data']['audioPlayer']['stream']['live']['title'].replace('"', '\\"')),
+                        currentSong['data']['audioPlayer']['stream']['live']['interpret'].replace('"', '\\"')),
+                        time_zone.localize(
+                            dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
+                                .replace(tzinfo=None)
+                        ),
+                        ''
+                    )
+                else:
+                    currentSong = Song(
+                        currentSong['data']['audioPlayer']['stream']['live']['title'].replace('"', '\\"')),
+                        currentSong['data']['audioPlayer']['stream']['live']['interpret'].replace('"', '\\"')),
+                        time_zone.localize(
+                            dateutil.parser.isoparse(currentSong['data']['audioPlayer']['stream']['live']['playtime'])
+                                .replace(tzinfo=None)
+                        ),
+                        currentSong['data']['audioPlayer']['stream']['live']['image']['imageUrl']
+                    )
+            except OverflowError:
+                time.sleep(15)
             if currentSong.__eq__(previousSong) is False:
                 if currentSong.playtime > previousSong.playtime:
                     try:
