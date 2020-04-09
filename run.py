@@ -90,8 +90,7 @@ while True:
                 cfg['radio']['url'] + '?' + datetime.datetime.strftime(datetime.datetime.now(), '%Y%m%d%H%M%S%f'),
                 context=ssl.create_default_context(cafile=certifi.where())) as url:
             currentSong = json.loads(url.read().decode())
-            print (currentSong)
-            print (currentSong['data']['audioPlayer']['stream']['live']['image'])
+            print (currentSong + '\n-')
             try:
                 if (currentSong['data']['audioPlayer']['stream']['live']['image'] == 'None' or
                    currentSong['data']['audioPlayer']['stream']['live']['image'] is None):
@@ -116,6 +115,9 @@ while True:
                     )
             except OverflowError:
                 time.sleep(15)
+            except TypeError as e:
+                time.sleep(3)
+                print(e)
             if currentSong.__eq__(previousSong) is False:
                 if currentSong.playtime > previousSong.playtime:
                     try:
