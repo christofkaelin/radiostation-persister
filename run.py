@@ -90,7 +90,7 @@ while True:
                 cfg['radio']['url'] + '?' + datetime.datetime.strftime(datetime.datetime.now(), '%Y%m%d%H%M%S%f'),
                 context=ssl.create_default_context(cafile=certifi.where())) as url:
             currentSong = json.loads(url.read().decode())
-            print (currentSong + '\n-')
+            print (currentSong)
             try:
                 if (currentSong['data']['audioPlayer']['stream']['live']['image'] == 'None' or
                    currentSong['data']['audioPlayer']['stream']['live']['image'] is None):
