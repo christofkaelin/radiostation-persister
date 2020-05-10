@@ -3,7 +3,7 @@
 Python utility which allows to save the playlist from a radio station into a database
 
 ## List of radio stations
-Radio Pilatus ([Stream](radiopilatus.ice.infomaniak.ch/pilatus128.mp3)):\
+Radio Pilatus ([Stream](https://radiopilatus.ice.infomaniak.ch/pilatus128.mp3)):\
 ```https://radio.radiopilatus.ch/api/pub/gql/radiopilatus/AudioLiveData/e8ed774ebb6a811303ea3ff7078581730ff3914c```
 
 Radio FM1 ([Stream](https://radiofm1.ice.infomaniak.ch/radiofm1-128.mp3)):\
