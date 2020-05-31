@@ -19,6 +19,9 @@ Virgin Radio Hits Switzerland ([Stream](https://icecast.argovia.ch/vhits)):\
 1) Clone the repo:
 ```git clone https://github.com/christofkaelin/radiostation-persister.git```
 2) Install the necessary requirements:
-```pip install -r requirements.txt```
-3) Run the script:
+```pip3 install -r requirements.txt```
+3) Create your own config file based on the sample:
+```cp config-sample.yaml config.yaml```
+And adapt the config with your preferred text editor (e.g. `vim` or `nano`)
+4) Run the script:
 ```python3 run.py```
