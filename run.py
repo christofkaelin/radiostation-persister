@@ -61,7 +61,7 @@ try:
         password=cfg['db']['passwd']
     )
 except mariadb.Error as e:
-    print('Error connecting to MariaDB Platform: {e}')
+    print('Error connecting to MariaDB Platform: ' + str(e))
     sys.exit(1)
 cur = conn.cursor()
 cur.execute('CREATE DATABASE IF NOT EXISTS ' + cfg['db']['db'] + ';')
